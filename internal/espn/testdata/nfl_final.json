@@ -1,0 +1,55 @@
+{
+  "leagues": [
+    {
+      "name": "National Football League",
+      "abbreviation": "NFL",
+      "season": {
+        "year": 2026,
+        "displayName": "2026"
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "401872980",
+      "date": "2026-10-09T00:15Z",
+      "season": {
+        "year": 0,
+        "slug": "x"
+      },
+      "competitions": [
+        {
+          "competitors": [
+            {
+              "homeAway": "home",
+              "score": "16",
+              "team": {
+                "displayName": "Dallas Cowboys",
+                "abbreviation": "DAL",
+                "logo": "https://a.espncdn.com/i/teamlogos/dal.png"
+              },
+              "winner": false
+            },
+            {
+              "homeAway": "away",
+              "score": "24",
+              "team": {
+                "displayName": "Tampa Bay Buccaneers",
+                "abbreviation": "TB",
+                "logo": "https://a.espncdn.com/i/teamlogos/tb.png"
+              },
+              "winner": true
+            }
+          ]
+        }
+      ],
+      "status": {
+        "type": {
+          "name": "STATUS_FINAL",
+          "state": "post",
+          "completed": true
+        }
+      }
+    }
+  ]
+}

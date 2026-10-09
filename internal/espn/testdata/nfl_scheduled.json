@@ -1,0 +1,53 @@
+{
+  "leagues": [
+    {
+      "name": "National Football League",
+      "abbreviation": "NFL",
+      "season": {
+        "year": 2026,
+        "displayName": "2026"
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "401872981",
+      "date": "2026-10-11T17:00Z",
+      "season": {
+        "year": 0,
+        "slug": "x"
+      },
+      "competitions": [
+        {
+          "competitors": [
+            {
+              "homeAway": "home",
+              "score": "0",
+              "team": {
+                "displayName": "Green Bay Packers",
+                "abbreviation": "GB",
+                "logo": "https://a.espncdn.com/i/teamlogos/gb.png"
+              }
+            },
+            {
+              "homeAway": "away",
+              "score": "0",
+              "team": {
+                "displayName": "Detroit Lions",
+                "abbreviation": "DET",
+                "logo": "https://a.espncdn.com/i/teamlogos/det.png"
+              }
+            }
+          ]
+        }
+      ],
+      "status": {
+        "type": {
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false
+        }
+      }
+    }
+  ]
+}
