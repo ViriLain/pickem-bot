@@ -100,6 +100,41 @@ The package itself must not import a driver. Its tests open
 func New(client *http.Client, baseURL string) *Client // implements domain.Provider; "" baseURL = the real one
 ```
 
+`internal/scheduler` (standard library, domain, game only):
+```go
+type Cards interface { // implemented by card.Service
+    Open(ctx context.Context, matchID int64) error
+    Refresh(ctx context.Context, matchID int64) error
+    AnnounceMove(ctx context.Context, matchID int64) error
+}
+type Alerter interface { Alert(ctx context.Context, text string) error } // admin channel
+type Config struct {
+    SyncEvery   time.Duration // default 6h
+    HorizonDays int           // default 7
+    Tick        time.Duration // default 60s
+    StaleAfter  time.Duration // default 6h: alert when a started match has no final
+    Recheck     time.Duration // default 10m: re-read kickoff this long before lock
+}
+func New(store domain.Store, provider domain.Provider, cards Cards, alerter Alerter, clock domain.Clock, cfg Config) *Scheduler
+func (s *Scheduler) SyncNow(ctx context.Context) error // satisfies commands.Syncer
+func (s *Scheduler) Tick(ctx context.Context) error    // one pass over open/lock/watch/settle
+func (s *Scheduler) Run(ctx context.Context) error     // sync + tick loop until ctx is done
+```
+
+`internal/discord` (the only package importing discordgo; may import
+`internal/card`, `internal/commands`, `internal/scheduler` for their types):
+```go
+func New(token, guildID, adminRoleID, adminChannelID string) (*Bot, error)
+// Bot implements card.Poster and scheduler.Alerter.
+func (b *Bot) Start(ctx context.Context, cards *card.Service, cmds *commands.Handlers) error // open the session, register commands.Specs() for the guild, route interactions
+func (b *Bot) Close() error
+```
+
+`cmd/pickem` reads `DISCORD_TOKEN`, `GUILD_ID`, `ADMIN_ROLE_ID`,
+`ADMIN_CHANNEL_ID`, `DB_PATH` (default `pickem.db`), `PICKEM_TZ` (default
+`America/New_York`). Wiring order: store (migrate) -> bot -> card.Service ->
+scheduler -> commands.Handlers -> bot.Start -> scheduler.Run.
+
 ## Rules for every work package
 - Edit only the directory you own. Never edit `go.mod`, `go.sum`,
   `internal/domain`, `internal/game`, `migrations`, `docs` or another
